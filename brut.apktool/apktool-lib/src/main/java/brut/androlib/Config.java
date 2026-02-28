@@ -41,6 +41,7 @@ public class Config {
     private boolean mIgnoreRawValues;
     private boolean mAnalysisMode;
     private DecodeAssets mDecodeAssets;
+    private boolean mKeepDex;
 
     // Build options
     private boolean mNoApk;
@@ -70,6 +71,7 @@ public class Config {
         mIgnoreRawValues = false;
         mAnalysisMode = false;
         mDecodeAssets = DecodeAssets.FULL;
+        mKeepDex = false;
 
         // Build options
         mNoApk = false;
@@ -218,6 +220,14 @@ public class Config {
     public void setDecodeAssets(DecodeAssets decodeAssets) {
         assert decodeAssets != null;
         mDecodeAssets = decodeAssets;
+    }
+
+    public boolean isKeepDex() {
+        return mKeepDex;
+    }
+
+    public void setKeepDex(boolean keepDex) {
+        mKeepDex = keepDex;
     }
 
     // Build options

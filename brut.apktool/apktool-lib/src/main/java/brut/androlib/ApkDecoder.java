@@ -123,6 +123,27 @@ public class ApkDecoder {
             boolean noSrc = mConfig.isDecodeSourcesNone();
 
             for (String fileName : in.getFiles(allSrc)) {
+				// 如果启用了 keepDex 选项，同时复制原始 DEX 文件
+				if (mConfig.isKeepDex()) {
+
+                    // 创建原始DEX文件目录
+                    File originalDexDir = new File(outDir, ".dex");
+                    if (originalDexDir.mkdirs()) {
+                        Log.i(TAG, "Created directory for original DEX files: " + originalDexDir.getAbsolutePath());
+                    }
+
+                    // 保留原始DEX文件到original-dex目录
+                    if (fileName.endsWith(".dex") && originalDexDir.exists()) {
+                        try {
+                            Log.i(TAG, "Copying original DEX file: " + fileName);
+                            in.copyToDir(originalDexDir, fileName);
+                        } catch (DirectoryException e) {
+                            Log.w(TAG, "Failed to copy original DEX file: " + fileName, e);
+                        }
+                    }
+
+				}
+
                 if (allSrc ? !fileName.endsWith(".dex") : !ApkInfo.CLASSES_FILES_PATTERN.matcher(fileName).matches()) {
                     continue;
                 }

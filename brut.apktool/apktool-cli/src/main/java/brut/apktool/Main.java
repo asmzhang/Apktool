@@ -99,6 +99,11 @@ public class Main {
         .desc("Do not decode sources.")
         .get();
 
+    private static final Option decodeKeepDexOption = Option.builder("k")
+        .longOpt("dex")
+        .desc("Keep original dex files while decoding sources to smali.")
+        .get();
+
     private static final Option decodeNoDebugInfoOption = Option.builder()
         .longOpt("no-debug-info")
         .desc("Do not include debug info in sources (.local, .param, .line, etc.)")
@@ -238,6 +243,7 @@ public class Main {
         if (options == null || options == decodeOptions) {
             decodeOptions.addOption(decodeAllSrcOption);
             decodeOptions.addOption(decodeForceOption);
+            decodeOptions.addOption(decodeKeepDexOption);
             decodeOptions.addOption(decodeNoResOption);
             decodeOptions.addOption(decodeNoSrcOption);
             decodeOptions.addOption(decodeOutputOption);
@@ -501,6 +507,9 @@ public class Main {
         }
         if (cli.hasOption(decodeNoAssetsOption)) {
             config.setDecodeAssets(Config.DecodeAssets.NONE);
+        }
+        if (cli.hasOption(decodeKeepDexOption)) {
+            config.setKeepDex(true);
         }
 
         File outDir;
